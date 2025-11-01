@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Producto</title>
+  <link rel="stylesheet" href="producto.css"> 
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Agregar Producto</h2>
+    <form id="productoForm" enctype="multipart/form-data">
+        <label for="nombre">Nombre del producto:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+        <label for="precio">Precio (USD):</label>
+        <input type="number" id="precio" name="precio" step="0.01" required>
+
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej. San Miguel, El Salvador" required>
+
+        <label for="imagen">Imagen del producto:</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*" required>
+
+        <input type="submit" value="Guardar producto">
+    </form>
+    <div id="mensaje"></div>
+  </div>
+
+  <script>
+    document.getElementById('productoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const mensaje = document.getElementById('mensaje');
+      const submitButton = this.querySelector('input[type="submit"]');
+
+      mensaje.textContent = '';
+      mensaje.className = '';
+      submitButton.value = 'Guardando...';
+      submitButton.disabled = true;
+
+      fetch('guardar_producto.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          mensaje.textContent = data.message;
+          mensaje.classList.add('success');
+          this.reset();
+        } else {
+          // Si PHP nos da un error controlado, lo mostramos aquí
+          mensaje.textContent = data.error || 'Ocurrió un error inesperado.';
+          mensaje.classList.add('error');
+        }
+      })
+      .catch(error => {
+        // Este es el error que estás viendo ahora
+        mensaje.textContent = 'Error de conexión. Revisa la consola (F12) para más detalles.';
+        mensaje.classList.add('error');
+        console.error('Error en fetch:', error);
+      })
+      .finally(() => {
+        submitButton.value = 'Guardar producto';
+        submitButton.disabled = false;
+      });
+    });
+  </script>
+  
+  <script src="theme-toggle.js"></script>
+</body>
+
+<script>
+(async () => {
+  const tieneSesionPHP = await fetch("verificar_sesion.php")
+    .then(r => r.json())
+    .then(d => d.loggedIn)
+    .catch(() => false);
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || tieneSesionPHP;
+
+  if (!isLoggedIn) {
+    window.location.replace("login.html");
+  }
+})();
+</script>
+
+
+</html>
+

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carrito de compras - ShopGo</title>
+  <link rel="stylesheet" href="carrito.css">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="theme-toggle.js" defer></script>
+</head>
+<body>
+
+<a href="menu.html" class="volver">
+  <ion-icon name="arrow-back-outline"></ion-icon>
+  Volver al menú
+</a>
+
+<div class="carrito-contenedor">
+  <h1>🛍️ Tu carrito</h1>
+  <ul id="lista-carrito"></ul>
+  <p id="total"></p>
+  <div class="acciones">
+    <button id="vaciar-carrito">Vaciar carrito</button>
+  </div>
+</div>
+
+<script>
+  function mostrarCarrito() {
+    const lista = document.getElementById('lista-carrito');
+    const total = document.getElementById('total');
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    lista.innerHTML = '';
+    let suma = 0;
+
+    if (carrito.length === 0) {
+      lista.innerHTML = '<li class="vacio">No hay productos en el carrito.</li>';
+      total.textContent = '';
+    } else {
+      carrito.forEach((producto, i) => {
+        const li = document.createElement('li');
+        li.classList.add('item-carrito');
+        li.innerHTML = `
+          <span>${producto.nombre}</span>
+          <span>$${producto.precio.toFixed(2)}</span>
+          <button class="eliminar" data-index="${i}"><ion-icon name="trash-outline"></ion-icon></button>
+        `;
+        lista.appendChild(li);
+        suma += producto.precio;
+      });
+      total.textContent = `Total: $${suma.toFixed(2)}`;
+    }
+  }
+
+  document.getElementById('vaciar-carrito').addEventListener('click', () => {
+    localStorage.removeItem('carrito');
+    mostrarCarrito();
+  });
+
+  document.getElementById('lista-carrito').addEventListener('click', (e) => {
+    if (e.target.closest('.eliminar')) {
+      const index = e.target.closest('.eliminar').dataset.index;
+      const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+      carrito.splice(index, 1);
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+      mostrarCarrito();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+    mostrarCarrito();
+  });
+</script>
+
+</body>
+
+<script>
+(async () => {
+  const tieneSesionPHP = await fetch("verificar_sesion.php")
+    .then(r => r.json())
+    .then(d => d.loggedIn)
+    .catch(() => false);
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || tieneSesionPHP;
+
+  if (!isLoggedIn) {
+    window.location.replace("login.html");
+  }
+})();
+</script>
+
+
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ShopGo - Innovación para tu negocio</title>
+<meta name="description" content="Empresa ficticia de tecnología: software, consultoría y soluciones cloud." />
+<link rel="stylesheet" href="styles.css" />
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+<a href="menu.html" class="logo-fijo-izquierda" aria-label="Inicio ShopGo">
+  <span class="icono">
+    <img src="logo.png" alt="Logo ShopGo" class="logo-imagen"
+         onerror="this.onerror=null;this.src='https://placehold.co/40x40/3182CE/FFFFFF?text=SG';">
+  </span>
+</a>
+
+<div class="floating-icons">
+  <div class="icon">🛒</div><div class="icon">🏷️</div><div class="icon">🎁</div><div class="icon">🛍️</div><div class="icon">💳</div>
+</div>
+
+<div class="contenido-principal">
+  <header class="encabezado-contenido">
+    <div class="portada">
+      <div class="contenedor portada-interna" id="contenido-principal-anchor">
+        <h1>Bienvenido a ShopGo</h1>
+      </div>
+    </div>
+  </header>
+
+  <footer class="pie">
+    <div class="contenedor pie-interno">© <span id="year"></span> ShopGo. Todos los derechos reservados.</div>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  <div class="search-container" id="search-container">
+  <ion-icon name="search-outline"></ion-icon>
+  <input type="text" id="search-input" placeholder="Buscar productos..." />
+    </div>
+  <nav class="navegacion">
+    <ul>
+      <li class="menu-toggle">
+  <div class="menu-icons">
+    <button id="search-btn" aria-label="Buscar productos">
+      <ion-icon name="search-outline"></ion-icon>
+      </button>
+      <button id="menu-toggle-btn" aria-label="Abrir menú">
+      <ion-icon name="menu-outline"></ion-icon>
+      </button>
+      </div>
+
+      <ul id="submenu" class="submenu oculto"></ul>
+      </li>
+
+      <li class="solo-login" id="carrito-opcion">
+        <a href="carrito.html" aria-label="Ver carrito">
+          <span class="icono"><ion-icon name="cart-outline"></ion-icon></span>
+          <span class="texto-link">Carrito</span>
+        </a>
+      </li>
+      <li class="solo-login" id="agregar-opcion">
+        <a href="producto.html" aria-label="Agregar producto">
+          <span class="icono"><ion-icon name="add-circle-outline"></ion-icon></span>
+          <span class="texto-link">Agregar producto</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const btn = document.getElementById("menu-toggle-btn");
+  const submenu = document.getElementById("submenu");
+  const carritoOpcion = document.getElementById("carrito-opcion");
+  const agregarOpcion = document.getElementById("agregar-opcion");
+
+  const tieneSesionPHP = await fetch("verificar_sesion.php")
+    .then(r => r.json())
+    .then(d => d.loggedIn)
+    .catch(() => false);
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || tieneSesionPHP;
+
+  if (!isLoggedIn) {
+    carritoOpcion.style.display = "none";
+    agregarOpcion.style.display = "none";
+  }
+
+  function actualizarMenu() {
+    submenu.innerHTML = '';
+    submenu.innerHTML = isLoggedIn
+      ? `
+        <li><a href="sobre.html"><ion-icon name="business-outline"></ion-icon><span>Sobre nosotros</span></a></li>
+        <li><a href="servicios.html"><ion-icon name="apps-outline"></ion-icon><span>Servicios</span></a></li>
+        <li><a href="contacto.html"><ion-icon name="call-outline"></ion-icon><span>Contacto</span></a></li>
+        <li><a href="perfil.html"><ion-icon name="person-circle-outline"></ion-icon><span>Perfil</span></a></li>
+        <li><a href="#" id="logout-button"><ion-icon name="log-out-outline"></ion-icon><span>Cerrar Sesión</span></a></li>
+        <li><a href="#" id="theme-toggle"><ion-icon id="theme-icon" name="contrast-outline"></ion-icon><span>Tema</span></a></li>
+      `
+      : `
+        <li><a href="sobre.html"><ion-icon name="business-outline"></ion-icon><span>Sobre nosotros</span></a></li>
+        <li><a href="servicios.html"><ion-icon name="apps-outline"></ion-icon><span>Servicios</span></a></li>
+        <li><a href="contacto.html"><ion-icon name="call-outline"></ion-icon><span>Contacto</span></a></li>
+        <li><a href="login.html"><ion-icon name="log-in-outline"></ion-icon><span>Iniciar Sesión</span></a></li>
+        <li><a href="registro.html"><ion-icon name="person-add-outline"></ion-icon><span>Registrarse</span></a></li>
+        <li><a href="#" id="theme-toggle"><ion-icon id="theme-icon" name="contrast-outline"></ion-icon><span>Tema</span></a></li>
+      `;
+  }
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    submenu.classList.toggle("oculto");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!submenu.contains(e.target) && e.target !== btn) submenu.classList.add("oculto");
+  });
+
+  submenu.addEventListener("click", (e) => {
+    const target = e.target.closest("#logout-button, #theme-toggle");
+    if (!target) return;
+
+    if (target.id === "logout-button") {
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      fetch("cerrar_sesion.php");
+      window.location.reload();
+    }
+
+    if (target.id === "theme-toggle") {
+      e.preventDefault();
+      document.body.classList.toggle("dark-mode");
+      const themeIcon = document.getElementById("theme-icon");
+      if (document.body.classList.contains("dark-mode")) {
+        themeIcon.setAttribute("name", "sunny-outline");
+        localStorage.setItem("theme", "dark");
+      } else {
+        themeIcon.setAttribute("name", "contrast-outline");
+        localStorage.setItem("theme", "light");
+      }
+    }
+  });
+
+  actualizarMenu();
+});
+
+// === Control de la barra de búsqueda ===
+const searchBtn = document.getElementById("search-btn");
+const searchContainer = document.getElementById("search-container");
+const searchInput = document.getElementById("search-input");
+
+searchBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  searchContainer.classList.toggle("active");
+  if (searchContainer.classList.contains("active")) {
+    searchInput.focus();
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (!searchContainer.contains(e.target) && e.target !== searchBtn) {
+    searchContainer.classList.remove("active");
+  }
+});
+
+</script>
+</body>
+
+<script>
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark-mode");
+}
+</script>
+
+</html>

@@ -1,0 +1,131 @@
+:root {
+  --primary: #2b6cb0;
+  --accent: #f6ad55;
+  --text: #1a202c;
+  --muted: #718096;
+  --bg: #f7fafc;
+  --white: #ffffff;
+  --border-color: #e2e8f0;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode {
+  --text: #e0e0e0;
+  --bg: #1a202c;
+  --white: #2d3748;
+  --border-color: #4a5568;
+  --shadow: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica, Arial;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: 2.2rem;
+  color: var(--primary);
+}
+
+.carrito-contenedor {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow);
+  border-radius: 12px;
+  padding: 2rem;
+  width: min(600px, 90%);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-carrito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
+}
+
+.item-carrito:last-child {
+  border-bottom: none;
+}
+
+.vacio {
+  text-align: center;
+  padding: 1rem;
+  color: var(--muted);
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 1rem;
+}
+
+button:hover {
+  background: #234e84;
+}
+
+.eliminar {
+  background: #e53e3e;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+}
+
+.eliminar:hover {
+  background: #c53030;
+}
+
+.acciones {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+#total {
+  margin-top: 1.2rem;
+  text-align: right;
+  font-weight: bold;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.volver {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center; 
+  gap: 8px;
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+  background: var(--white);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow);
+  transition: background 0.3s ease;
+}
+
+.volver:hover {
+  background: #ebf4ff;
+}
