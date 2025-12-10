@@ -1,7 +1,7 @@
 function handleCredentialResponse(response) {
   console.log("ID Token recibido:", response.credential);
   localStorage.setItem('isLoggedIn', 'true');
-  window.location.href = "menu.html";
+  window.location.href = "menu.php";
 }
 
 window.onload = function () {

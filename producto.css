@@ -1,143 +1,203 @@
+:root {
+  --bg: #050816;
+  --card-bg: #111827;
+  --card-border: #1f2937;
+  --white: #f9fafb;
+  --text: #e5e7eb;
+  --accent: #1d4ed8;
+  --accent-hover: #2563eb;
+  --input-bg: #1f2937;
+  --input-border: #374151;
+  --error: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .form-container {
-  background-color: #fff;
-  padding: 30px;
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 28px 24px 32px;
+  background: var(--card-bg);
   border-radius: 12px;
-  max-width: 500px;
-  width: 100%;
-  margin: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.6);
 }
 
 .form-container h2 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
+  margin: 0 0 24px;
+  font-size: 1.8rem;
+}
+
+#productoForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#productoForm label {
   font-weight: 600;
-  transition: color 0.3s ease;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
 }
 
-label {
-  display: block;
-  margin-top: 18px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
-  font-size: 0.95em;
-  transition: color 0.3s ease;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="file"],
-textarea {
+#productoForm input[type="text"],
+#productoForm input[type="number"],
+#productoForm input[type="file"],
+#productoForm textarea,
+#productoForm select {
   width: 100%;
-  padding: 12px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
-  background-color: #fff;
-  color: #333;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-  border-color: #0078D4;
-  box-shadow: 0 0 5px rgba(0, 120, 212, 0.3);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--white);
+  font-size: 0.95rem;
   outline: none;
 }
 
-input[type="submit"] {
-  background-color: #0078D4;
-  color: white;
-  padding: 14px;
+#productoForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#productoForm input[type="text"]::placeholder,
+#productoForm input[type="number"]::placeholder,
+#productoForm textarea::placeholder {
+  color: #6b7280;
+}
+
+#productoForm input[type="text"]:focus,
+#productoForm input[type="number"]:focus,
+#productoForm textarea:focus,
+#productoForm select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.5);
+}
+
+#productoForm input[type="submit"] {
+  margin-top: 10px;
+  padding: 11px 16px;
+  border-radius: 999px;
   border: none;
-  border-radius: 6px;
-  margin-top: 25px;
   cursor: pointer;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+#productoForm input[type="submit"]:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+#productoForm input[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+
+#mensaje {
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+#mensaje.error {
+  color: var(--error);
+}
+
+@media (max-width: 720px) {
+  .form-container {
+    margin: 24px 12px;
+    padding: 22px 16px 26px;
+  }
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* detalle de producto reutilizado */
+
+.product-detail {
+  max-width: 1100px;
+  margin: 36px auto;
+  padding: 28px;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.12);
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+body.dark-mode .product-detail {
+  background: #0f1720;
+  color: var(--white);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+.product-detail .detalle-imagen {
   width: 100%;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-input[type="submit"]:hover {
-  background-color: #005fa3;
-  transform: translateY(-2px);
-}
-
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
-
-body.dark-mode .form-container {
-  background-color: #1e1e1e;
-  border-color: #444;
-}
-
-body.dark-mode h2 {
-  color: #f5f5f5;
-}
-
-body.dark-mode label {
-  color: #bbb;
-}
-
-body.dark-mode input[type="text"],
-body.dark-mode input[type="number"],
-body.dark-mode input[type="file"],
-body.dark-mode textarea {
-  background-color: #333;
-  color: #f5f5f5;
-  border-color: #555;
-}
-
-body.dark-mode input[type="text"]:focus,
-body.dark-mode input[type="number"]:focus,
-body.dark-mode textarea:focus {
-  border-color: #0095ff;
-  box-shadow: 0 0 5px rgba(0, 149, 255, 0.4);
-}
-
-body.dark-mode input[type="submit"] {
-  background-color: #0095ff;
-}
-
-body.dark-mode input[type="submit"]:hover {
-  background-color: #0078D4;
-}
-
-.error, .success {
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 15px;
-  text-align: center;
-  display: none;
-}
-.error {
-  color: #FFBABA; background-color: #D8000C; border: 1px solid #D8000C;
-}
-.success {
-  color: #DFF2BF; background-color: #4F8A10; border: 1px solid #4F8A10;
-}
-#mensaje:not(:empty) {
+  max-width: 720px;
+  margin: 0 auto 22px;
   display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
 }
 
+.product-detail .detalle-imagen img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.product-detail .detalle-info {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8px 6px;
+}
+
+.product-detail h1 {
+  font-size: 1.9rem;
+  margin: 12px 0 8px;
+}
+
+.product-detail .price {
+  color: #f1c40f;
+  font-weight: 700;
+  margin: 8px 0 14px;
+  font-size: 1.05rem;
+}
+
+.product-detail p {
+  margin: 8px 0;
+  line-height: 1.6;
+  color: inherit;
+}
+
+@media (max-width: 900px) {
+  .product-detail {
+    padding: 20px;
+    margin: 20px 12px;
+  }
+  .product-detail .detalle-imagen {
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+  .product-detail h1 {
+    font-size: 1.6rem;
+  }
+}

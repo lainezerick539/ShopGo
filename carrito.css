@@ -1,131 +1,156 @@
-:root {
-  --primary: #2b6cb0;
-  --accent: #f6ad55;
-  --text: #1a202c;
-  --muted: #718096;
-  --bg: #f7fafc;
-  --white: #ffffff;
-  --border-color: #e2e8f0;
-  --shadow: rgba(0, 0, 0, 0.08);
-}
-
-body.dark-mode {
-  --text: #e0e0e0;
-  --bg: #1a202c;
-  --white: #2d3748;
-  --border-color: #4a5568;
-  --shadow: rgba(0, 0, 0, 0.5);
-}
-
 body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica, Arial;
-  background: var(--bg);
-  color: var(--text);
   margin: 0;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
+  font-family: Inter, system-ui, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.top-nav {
+  padding: 20px;
+}
+
+.back-btn {
+  display: inline-flex;
   align-items: center;
-  min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
+  gap: 6px;
+  text-decoration: none;
+  background: #1e293b;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-h1 {
-  margin-bottom: 1rem;
-  font-size: 2.2rem;
-  color: var(--primary);
+.cart-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
 }
 
-.carrito-contenedor {
-  background: var(--white);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 12px var(--shadow);
-  border-radius: 12px;
-  padding: 2rem;
-  width: min(600px, 90%);
-  transition: background 0.3s ease, border-color 0.3s ease;
+.cart-card {
+  background: #1e293b;
+  width: 100%;
+  max-width: 600px;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-ul {
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #38bdf8;
+}
+
+.cart-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 20px;
+  border-top: 1px solid #334155;
 }
 
-.item-carrito {
+.cart-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 1rem;
-  border-bottom: 1px solid var(--border-color);
-  font-size: 1rem;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #334155;
 }
 
-.item-carrito:last-child {
-  border-bottom: none;
+.price {
+  font-weight: 700;
+  color: #38bdf8;
 }
 
-.vacio {
+.empty {
+  padding: 20px;
   text-align: center;
-  padding: 1rem;
-  color: var(--muted);
+  font-size: 1.1rem;
+  opacity: .7;
 }
 
-button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  font-size: 1rem;
-}
-
-button:hover {
-  background: #234e84;
-}
-
-.eliminar {
-  background: #e53e3e;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-}
-
-.eliminar:hover {
-  background: #c53030;
-}
-
-.acciones {
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-#total {
-  margin-top: 1.2rem;
+.total {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  font-weight: 700;
   text-align: right;
-  font-weight: bold;
-  color: var(--text);
+  color: #38bdf8;
+}
+
+.actions {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.clear-btn {
+  color: #f87171;
+  text-decoration: none;
   font-size: 1.1rem;
 }
-
-.volver {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center; 
-  gap: 8px;
-  text-decoration: none;
-  color: var(--primary);
-  font-weight: 600;
-  background: var(--white);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px var(--shadow);
-  transition: background 0.3s ease;
+.clear-btn:hover {
+  text-decoration: underline;
 }
 
-.volver:hover {
-  background: #ebf4ff;
+.item-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.item-link:hover li {
+  background: #243447;
+  transition: .2s;
+}
+
+.delete-btn {
+  color: #f87171;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-left: 15px;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.item-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.item-link:hover {
+  text-decoration: underline;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f87171;
+  font-size: 1.4rem;
+}
+
+.delete-btn ion-icon {
+  pointer-events: none;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
 }

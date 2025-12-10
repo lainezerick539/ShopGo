@@ -27,7 +27,7 @@ if (isset($_POST['nombre'], $_POST['username'], $_POST['correo'], $_POST['contra
     $stmt->bind_param('sssss', $nombre, $username, $correo, $hashed_password, $telefono);
 
     if ($stmt->execute()) {
-        header("Location: intro.html"); // <- Cambio aquí
+        header("Location: intro.html"); 
         exit();
     } else {
         echo "Error al registrar el usuario: " . $stmt->error;

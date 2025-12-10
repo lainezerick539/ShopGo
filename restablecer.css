@@ -58,3 +58,30 @@ input[type="submit"]:hover {
   transform:scale(1.03);
   box-shadow:0 0 12px rgba(147,112,219,0.7);
 }
+
+
+#mensaje-respuesta {
+  margin-top: 15px;
+  padding: 12px 15px; 
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px; 
+  display: none; 
+  text-align: center;
+}
+
+#mensaje-respuesta:not(:empty) {
+  display: block;
+}
+
+.mensaje.success {
+  background-color: #1e3624; 
+  border: 1px solid #28a745; 
+  color: #d1f3d9; 
+}
+
+.mensaje.error {
+  background-color: #361e1e; 
+  border: 1px solid #dc3545; 
+  color: #f3d1d1; 
+}

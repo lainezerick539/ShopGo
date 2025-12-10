@@ -1,8 +1,14 @@
 <?php
 $conexion = new mysqli('localhost', 'root', '', 'empresa');
-if ($conexion->connect_error) die("Error de conexión");
 
-if (isset($_POST['token'], $_POST['contrasena'])) {
+$response = [
+    'status' => 'error',
+    'message' => 'Ocurrió un error desconocido.'
+];
+
+if ($conexion->connect_error) {
+    $response['message'] = "Error de conexión: " . $conexion->connect_error;
+} else if (isset($_POST['token'], $_POST['contrasena'])) {
     $token = $_POST['token'];
     $nueva = $_POST['contrasena'];
 
@@ -13,16 +19,34 @@ if (isset($_POST['token'], $_POST['contrasena'])) {
 
     if ($row = $result->fetch_assoc()) {
         if (strtotime($row['token_expira']) > time()) {
-            $update = $conexion->prepare("UPDATE usuarios SET contrasena=SHA2(?,256), token_recuperacion=NULL, token_expira=NULL WHERE id=?");
-            $update->bind_param('si', $nueva, $row['id']);
-            $update->execute();
-            echo "Contraseña actualizada correctamente.";
+            
+            $hashed_password = password_hash($nueva, PASSWORD_DEFAULT);
+
+            $update = $conexion->prepare("UPDATE usuarios SET contrasena=?, token_recuperacion=NULL, token_expira=NULL WHERE id=?");
+            
+            $update->bind_param('si', $hashed_password, $row['id']);
+            
+            if ($update->execute()) {
+                $response['status'] = 'success';
+                $response['message'] = 'Contraseña actualizada correctamente.';
+            } else {
+                $response['message'] = 'Error al actualizar la contraseña en la base de datos.';
+            }
+            $update->close();
         } else {
-            echo "El enlace ha expirado.";
+            $response['message'] = 'El enlace ha expirado.';
         }
     } else {
-        echo "Token inválido.";
+        $response['message'] = 'Token inválido.';
     }
+    $stmt->close();
+} else {
+    $response['message'] = 'Datos incompletos. Se requiere token y contraseña.';
 }
+
 $conexion->close();
+
+header('Content-Type: application/json');
+echo json_encode($response);
+exit;
 ?>
